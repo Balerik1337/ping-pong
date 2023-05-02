@@ -33,14 +33,14 @@ class Player(GameSprite):
 
 
 window = display.set_mode((700,500))
-window.fill((40,100,200))
+window.fill((255,255,255))
 
 
 racket2 = Player("racket.png",5,150,50,150,7.5)
 racket = Player("racket.png",645,150,50,150,7.5)
 ball = GameSprite("tenis_ball.png",300,200,50,50,7.5)
 lose = font.SysFont('Arial',50)
-lose1 = lose.render('PLAYER 2 WIN!',True,(75,75,0))
+lose1 = lose.render('PLAYER 2 WIN!',True,(2,75,0))
 lose2 = lose.render('PLAYER 1 WIN!',True,(2,75,0))
 
 clock = time.Clock()
@@ -53,7 +53,7 @@ speed_y = 3
 
 while game:
     if finish == False:
-        window.fill((40,100,200))
+        window.fill((255,255,255))
         racket.update_l()
         racket2.update_r()
         ball.rect.x += speed_x
