@@ -3,6 +3,7 @@ from random import (
     randint,uniform
 )
 from time import time as timer
+font.init()
 
 
 class GameSprite(sprite.Sprite):
@@ -35,30 +36,50 @@ window = display.set_mode((700,500))
 window.fill((40,100,200))
 
 
-racket = Player("racket.png",5,150,50,150,7.5)
-racket2 = Player("racket.png",645,150,50,150,7.5)
+racket2 = Player("racket.png",5,150,50,150,7.5)
+racket = Player("racket.png",645,150,50,150,7.5)
 ball = GameSprite("tenis_ball.png",300,200,50,50,7.5)
-
+lose = font.SysFont('Arial',50)
+lose1 = lose.render('PLAYER 2 WIN!',True,(75,75,0))
+lose2 = lose.render('PLAYER 1 WIN!',True,(2,75,0))
 
 clock = time.Clock()
 FPS = 50
 game = True
 finish = False
+speed_x = 3
+speed_y = 3
 
 
 while game:
-    window.fill((40,100,200))
-    racket.update_l()
-    racket2.update_r()
+    if finish == False:
+        window.fill((40,100,200))
+        racket.update_l()
+        racket2.update_r()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        racket.reset()
+        racket2.reset()
+        ball.reset()
 
+    
     for e in event.get():
         if e.type == QUIT:
             game = False
 
 
-    racket.reset()
-    racket2.reset()
-    ball.reset()
+    if ball.rect.y < 0 or ball.rect.y > 450:
+        speed_y *= -1
+
+    if ball.rect.x < 0:
+        finish = True
+        window.blit(lose1,(200,200))
+    if ball.rect.x > 650:
+        finish = True
+        window.blit(lose2,(200,200))
+
+    if sprite.collide_rect(racket, ball) or sprite.collide_rect(racket2,ball):
+        speed_x *= -1
 
 
     display.update()
